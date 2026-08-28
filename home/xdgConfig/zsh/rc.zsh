@@ -1,8 +1,12 @@
 alias ll="ls -alh"
 alias ..="cd .."
-alias jfu="journalctl -f -u"
-alias ssr="sudo systemctl restart"
 alias gac="git add . && git commit -m"
+
+# systemd helpers; Linux only.
+if [[ "$(uname -s)" == "Linux" ]]; then
+  alias jfu="journalctl -f -u"
+  alias ssr="sudo systemctl restart"
+fi
 
 eval "$(mise activate zsh)"
 eval "$(starship init zsh)"

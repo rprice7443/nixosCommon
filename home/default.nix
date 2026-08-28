@@ -93,7 +93,7 @@ in
     };
     packages.enable = lib.mkEnableOption "standard home packages";
     cli.enable = lib.mkEnableOption "common CLI tools (zsh, helix, tmux, fzf, latex)";
-    applications.enable = lib.mkEnableOption "common GUI applications (vscode, zed, joplin, zathura)";
+    applications.enable = lib.mkEnableOption "common GUI applications (zed, joplin, zathura)";
     linuxDesktop.enable = lib.mkEnableOption ''
       Linux graphical desktop: GUI applications (firefox, chromium,
       signal-desktop, ...) and Wayland desktop tooling (niri, waybar, mako,

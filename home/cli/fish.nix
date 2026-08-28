@@ -18,12 +18,15 @@
     shellAbbrs = {
       "gac" = "git add . && git commit -m";
       "gps" = "git push";
-      "ssr" = "sudo systemctl restart";
-      "jfu" = "journalctl -f -u";
       "nfu" = "nix flake update";
       "ndd" = "nix develop .#";
       "opc" = "opencode";
       "zlj" = "zellij";
+    }
+    # systemd helpers; absent on darwin.
+    // lib.optionalAttrs pkgs.stdenv.isLinux {
+      "ssr" = "sudo systemctl restart";
+      "jfu" = "journalctl -f -u";
     };
   };
 
