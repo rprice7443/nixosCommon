@@ -39,7 +39,6 @@
           forgejo-cli
           go
           just
-          julia_110
           mise
           nasm
           nodejs
@@ -71,7 +70,6 @@
           taplo
           jaq
           tcpdump
-          tshark
         ])
         # Non-GUI Linux-only tooling — fine on headless Linux, absent on darwin.
         ++ lib.optionals pkgs.stdenv.isLinux (
