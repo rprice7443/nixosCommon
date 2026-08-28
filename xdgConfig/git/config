@@ -1,0 +1,17 @@
+[init]
+	defaultBranch = main
+
+[push]
+	autoSetupRemote = true
+
+[alias]
+	ps = push
+	a = add .
+	st = status
+	pl = pull
+	sw = switch
+	sc = switch -c
+	c = commit -m
+
+[include]
+	path = hostconfig

@@ -1,0 +1,8 @@
+profile {
+  output "BOE NE135A1M-NY1 Unknown" enable mode 2880x1920@120.000Hz scale 2 position 0,0
+}
+
+profile {
+  output "BOE NE135A1M-NY1 Unknown" enable mode 2880x1920@120.000Hz scale 2 position 0,0
+  output "Acer Technologies XZ342CU S3 4524001393V01" enable mode 3440x1440@180.000Hz scale 1 position 1440,0
+}

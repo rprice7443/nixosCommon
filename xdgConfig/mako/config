@@ -1,0 +1,21 @@
+font=monospace 10
+width=380
+anchor=top-right
+margin=8
+padding=12
+background-color=@background-alpha@
+text-color=@foreground@
+border-size=2
+border-color=@blue@
+border-radius=12
+default-timeout=5000
+layer=overlay
+max-visible=5
+sort=-time
+
+[urgency=low]
+border-color=@comment@
+
+[urgency=high]
+border-color=@red@
+default-timeout=0

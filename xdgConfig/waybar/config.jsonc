@@ -1,0 +1,57 @@
+{
+  "layer": "top",
+  "position": "top",
+  "height": 34,
+  "modules-left": ["niri/workspaces", "wlr/taskbar"],
+  "modules-center": ["clock"],
+  "modules-right": ["niri/language", "pulseaudio", "network", "battery", "tray"],
+
+  "niri/workspaces": {
+    "format": "{name}",
+    "all-outputs": true
+  },
+  "wlr/taskbar": {
+    "format": "{icon} {name}",
+    "icon-size": 16,
+    "on-click": "activate",
+    "on-click-right": "close",
+    "tooltip-format": "{title}",
+    "active-first": false,
+    "ignore-list": []
+  },
+  "clock": {
+    "format": "{:%H:%M}",
+    "format-alt": "{:%a %b %d, %Y}",
+    "tooltip-format": "<tt><small>{calendar}</small></tt>"
+  },
+  "battery": {
+    "states": {
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "BAT {capacity}%",
+    "format-charging": "CHR {capacity}%",
+    "format-plugged": "PLG {capacity}%",
+    "format-full": "FULL",
+    "tooltip-format": "{timeTo}"
+  },
+  "network": {
+    "format-wifi": "{essid} {signalStrength}%",
+    "format-ethernet": "{ipaddr}",
+    "format-disconnected": "offline",
+    "format-linked": "no IP",
+    "tooltip-format-wifi": "{essid}\n{ipaddr}\n{signalStrength}% signal"
+  },
+  "niri/language": {
+    "format": "KBD {long}"
+  },
+  "pulseaudio": {
+    "format": "VOL {volume}%",
+    "format-muted": "MUTE",
+    "on-click": "pulsemixer",
+    "scroll-step": 5
+  },
+  "tray": {
+    "spacing": 8
+  }
+}
