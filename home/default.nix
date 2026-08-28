@@ -65,7 +65,6 @@ in
     ./cli/helix.nix
     ./cli/tmux.nix
     ./cli/fzf.nix
-    ./cli/latex.nix
     ./cli/fish.nix
     ./application/zed.nix
     ./application/joplin.nix
@@ -92,7 +91,7 @@ in
       description = "Path to a host-specific source tree containing a home/xdgConfig/ subdirectory (conventionally ./hosts/<host-name> in a consumer flake). Files here override those from src and flakeSrc.";
     };
     packages.enable = lib.mkEnableOption "standard home packages";
-    cli.enable = lib.mkEnableOption "common CLI tools (zsh, helix, tmux, fzf, latex)";
+    cli.enable = lib.mkEnableOption "common CLI tools (zsh, helix, tmux, fzf)";
     applications.enable = lib.mkEnableOption "common GUI applications (zed, joplin, zathura)";
     linuxDesktop.enable = lib.mkEnableOption ''
       Linux graphical desktop: GUI applications (firefox, chromium,
