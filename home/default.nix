@@ -25,11 +25,28 @@ let
     in
     builtins.replaceStrings (map (k: "@${k}@") keys) (map (k: colors.${k}) keys) content;
 
-  # Build a xdg.configFile attrset from an xdgConfig/ directory inside src.
+  # Which common.* flag gates each top-level xdgConfig/ subdirectory. Unlisted
+  # directories deploy unconditionally. Applies to every source layer (src,
+  # flakeSrc, hostSrc).
+  xdgGates = {
+    git = config.common.cli.enable;
+    helix = config.common.cli.enable;
+    zsh = config.common.cli.enable;
+    fuzzel = config.common.linuxDesktop.enable;
+    kanshi = config.common.linuxDesktop.enable;
+    mako = config.common.linuxDesktop.enable;
+    niri = config.common.linuxDesktop.enable;
+    swaylock = config.common.linuxDesktop.enable;
+    waybar = config.common.linuxDesktop.enable;
+  };
+
+  fileEnabled = f: xdgGates.${builtins.head (lib.splitString "/" f)} or true;
+
+  # Build a xdg.configFile attrset from a home/xdgConfig/ directory inside src.
   xdgFiles =
     src:
     let
-      xdgDir = "${src}/xdgConfig";
+      xdgDir = "${src}/home/xdgConfig";
     in
     lib.listToAttrs (
       map (f: {
@@ -37,7 +54,7 @@ let
         value = {
           text = processFile "${xdgDir}/${f}";
         };
-      }) (listFilesRecursive xdgDir)
+      }) (lib.filter fileEnabled (listFilesRecursive xdgDir))
     );
 in
 {
@@ -48,7 +65,6 @@ in
     ./cli/helix.nix
     ./cli/tmux.nix
     ./cli/fzf.nix
-    ./cli/latex.nix
     ./cli/fish.nix
     ./application/zed.nix
     ./application/joplin.nix
@@ -67,16 +83,16 @@ in
     flakeSrc = lib.mkOption {
       type = lib.types.nullOr lib.types.path;
       default = null;
-      description = "Path to a flake-level source tree containing an xdgConfig/ subdirectory, shared by every host defined in a consumer flake. Files here override those from src.";
+      description = "Path to a flake-level source tree containing a home/xdgConfig/ subdirectory, shared by every host defined in a consumer flake. Files here override those from src.";
     };
     hostSrc = lib.mkOption {
       type = lib.types.nullOr lib.types.path;
       default = null;
-      description = "Path to a host-specific source tree containing an xdgConfig/ subdirectory. Files here override those from src and flakeSrc.";
+      description = "Path to a host-specific source tree containing a home/xdgConfig/ subdirectory (conventionally ./hosts/<host-name> in a consumer flake). Files here override those from src and flakeSrc.";
     };
     packages.enable = lib.mkEnableOption "standard home packages";
-    cli.enable = lib.mkEnableOption "common CLI tools (zsh, helix, tmux, fzf, latex)";
-    applications.enable = lib.mkEnableOption "common GUI applications (vscode, zed, joplin, zathura)";
+    cli.enable = lib.mkEnableOption "common CLI tools (zsh, helix, tmux, fzf)";
+    applications.enable = lib.mkEnableOption "common GUI applications (zed, joplin, zathura)";
     linuxDesktop.enable = lib.mkEnableOption ''
       Linux graphical desktop: GUI applications (firefox, chromium,
       signal-desktop, ...) and Wayland desktop tooling (niri, waybar, mako,
@@ -88,7 +104,7 @@ in
       let
         # Ordered by increasing precedence; later sources override earlier
         # ones per relative file path.
-        sources = lib.filter (s: s != null && builtins.pathExists "${s}/xdgConfig") [
+        sources = lib.filter (s: s != null && builtins.pathExists "${s}/home/xdgConfig") [
           config.common.src
           config.common.flakeSrc
           config.common.hostSrc

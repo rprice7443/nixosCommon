@@ -11,11 +11,19 @@ straightforward.
 
 ## xdgConfig layering
 
-The home module deploys files from up to three `xdgConfig/` trees, merged per
-relative file path with later levels overriding earlier ones wholesale:
+The home module deploys files from up to three `home/xdgConfig/` trees, merged
+per relative file path with later levels overriding earlier ones wholesale:
 
-1. `common.src` — this flake's `xdgConfig/` (the default; includes common
+1. `common.src` — this flake's `home/xdgConfig/` (the default; includes common
    defaults and `@color@` substitution machinery).
-2. `common.flakeSrc` — a tree shared by every host defined in a consumer
-   flake.
-3. `common.hostSrc` — a tree for one specific host.
+2. `common.flakeSrc` — a consumer flake's source tree; its `home/xdgConfig/`
+   overrides nixos-common for every host defined in that flake.
+3. `common.hostSrc` — a host-specific tree, conventionally `./hosts/<host-name>`
+   in the consumer flake (so files live at `hosts/<host-name>/home/xdgConfig/`);
+   takes the highest precedence.
+
+Some top-level subdirectories are feature-gated and only deploy when their flag
+is enabled: `git/`, `helix/`, and `zsh/` require `common.cli.enable`; `fuzzel/`,
+`kanshi/`, `mako/`, `niri/`, `swaylock/`, and `waybar/` require
+`common.linuxDesktop.enable`. Directories not in the gate map always deploy.
+Gating applies to all three layers.
