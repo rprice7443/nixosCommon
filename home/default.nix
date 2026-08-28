@@ -68,10 +68,10 @@ in
     ./cli/fish.nix
     ./application/zed.nix
     ./application/joplin.nix
-    ./application/zathura.nix
     ./desktop/niri.nix
     ./desktop/mako.nix
     ./desktop/fuzzel.nix
+    ./desktop/zathura.nix
   ];
 
   options.common = {
@@ -92,7 +92,7 @@ in
     };
     packages.enable = lib.mkEnableOption "standard home packages";
     cli.enable = lib.mkEnableOption "common CLI tools (zsh, helix, tmux, fzf)";
-    applications.enable = lib.mkEnableOption "common GUI applications (zed, joplin, zathura)";
+    applications.enable = lib.mkEnableOption "cross-platform GUI applications (zed, joplin)";
     linuxDesktop.enable = lib.mkEnableOption ''
       Linux graphical desktop: GUI applications (firefox, chromium,
       signal-desktop, ...) and Wayland desktop tooling (niri, waybar, mako,

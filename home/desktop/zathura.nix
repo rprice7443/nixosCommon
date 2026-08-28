@@ -5,7 +5,7 @@
   ...
 }:
 {
-  config = lib.mkIf config.common.applications.enable {
+  config = lib.mkIf config.common.linuxDesktop.enable {
     programs.zathura = {
       enable = true;
     };
