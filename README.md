@@ -21,3 +21,9 @@ per relative file path with later levels overriding earlier ones wholesale:
 3. `common.hostSrc` — a host-specific tree, conventionally `./hosts/<host-name>`
    in the consumer flake (so files live at `hosts/<host-name>/home/xdgConfig/`);
    takes the highest precedence.
+
+Some top-level subdirectories are feature-gated and only deploy when their flag
+is enabled: `git/`, `helix/`, and `zsh/` require `common.cli.enable`; `fuzzel/`,
+`kanshi/`, `mako/`, `niri/`, `swaylock/`, and `waybar/` require
+`common.linuxDesktop.enable`. Directories not in the gate map always deploy.
+Gating applies to all three layers.

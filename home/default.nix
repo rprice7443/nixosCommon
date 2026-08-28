@@ -25,6 +25,23 @@ let
     in
     builtins.replaceStrings (map (k: "@${k}@") keys) (map (k: colors.${k}) keys) content;
 
+  # Which common.* flag gates each top-level xdgConfig/ subdirectory. Unlisted
+  # directories deploy unconditionally. Applies to every source layer (src,
+  # flakeSrc, hostSrc).
+  xdgGates = {
+    git = config.common.cli.enable;
+    helix = config.common.cli.enable;
+    zsh = config.common.cli.enable;
+    fuzzel = config.common.linuxDesktop.enable;
+    kanshi = config.common.linuxDesktop.enable;
+    mako = config.common.linuxDesktop.enable;
+    niri = config.common.linuxDesktop.enable;
+    swaylock = config.common.linuxDesktop.enable;
+    waybar = config.common.linuxDesktop.enable;
+  };
+
+  fileEnabled = f: xdgGates.${builtins.head (lib.splitString "/" f)} or true;
+
   # Build a xdg.configFile attrset from a home/xdgConfig/ directory inside src.
   xdgFiles =
     src:
@@ -37,7 +54,7 @@ let
         value = {
           text = processFile "${xdgDir}/${f}";
         };
-      }) (listFilesRecursive xdgDir)
+      }) (lib.filter fileEnabled (listFilesRecursive xdgDir))
     );
 in
 {
