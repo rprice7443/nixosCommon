@@ -16,6 +16,22 @@
 
   config = lib.mkMerge [
     {
+      time.timeZone = config.common.timezone;
+
+      # darwin has no fonts.enableDefaultPackages / fonts.fontconfig; only fonts.packages.
+      fonts.packages = with pkgs; [
+        noto-fonts
+        noto-fonts-cjk-sans
+        noto-fonts-cjk-serif
+        noto-fonts-color-emoji
+        liberation_ttf
+        nerd-fonts.jetbrains-mono
+      ];
+    }
+
+    # With nix.enable = false, nix.gc/nix.optimise fail nix-darwin assertions
+    # and nix.settings is silently ignored.
+    (lib.mkIf config.nix.enable {
       nix.settings.experimental-features = [
         "nix-command"
         "flakes"
@@ -41,19 +57,7 @@
           Minute = 15;
         };
       };
-
-      time.timeZone = config.common.timezone;
-
-      # darwin has no fonts.enableDefaultPackages / fonts.fontconfig; only fonts.packages.
-      fonts.packages = with pkgs; [
-        noto-fonts
-        noto-fonts-cjk-sans
-        noto-fonts-cjk-serif
-        noto-fonts-color-emoji
-        liberation_ttf
-        nerd-fonts.jetbrains-mono
-      ];
-    }
+    })
 
     (lib.mkIf config.common.fish.enable {
       programs.fish.enable = true;
